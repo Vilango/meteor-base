@@ -10,10 +10,17 @@ ENV SCRIPTS_FOLDER /docker
 ENV APP_SOURCE_FOLDER /opt/src
 ENV APP_BUNDLE_FOLDER /opt/bundle
 
+## Prevent prompt for tzdata region
+ENV TZ=Europe/Vienna 
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Install dependencies, based on https://github.com/jshimko/meteor-launchpad/blob/master/scripts/install-deps.sh (only the parts we plan to use)
 RUN apt-get update && \
 	apt-get install --assume-yes apt-transport-https ca-certificates && \
-	apt-get install --assume-yes --no-install-recommends build-essential bsdtar bzip2 curl git python
+	apt-get install --assume-yes --no-install-recommends build-essential libarchive-tools bzip2 curl git python
+	# for older ubuntu build
+	# apt-get install --assume-yes --no-install-recommends build-essential bsdtar bzip2 curl git python
+	
 
 # Install Meteor
 RUN curl https://install.meteor.com/?release=$METEOR_VERSION --output /tmp/install-meteor.sh && \

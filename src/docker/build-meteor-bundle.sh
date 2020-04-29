@@ -8,4 +8,4 @@ mkdir --parents $APP_BUNDLE_FOLDER
 
 cd $APP_SOURCE_FOLDER
 
-meteor build --directory $APP_BUNDLE_FOLDER --server-only
+meteor build --directory $APP_BUNDLE_FOLDER --server-only --verbose
