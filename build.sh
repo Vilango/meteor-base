@@ -22,3 +22,18 @@ for version in "${meteor_versions[@]}"; do
 done
 docker tag vilango/meteor-base:"${version}" vilango/meteor-base:latest
 printf "${GREEN}Success building Docker base images for all supported Meteor versions\n"
+
+
+
+# for version in "${meteor_versions[@]}"; do
+# 	for cyversion in "${cypress_versions[@]}"; do
+# 		printf "${GREEN}Building Docker base image for Meteor ${version}-${cyversion}...${NC}\n"
+# 		if ! docker build --build-arg "METEOR_VERSION=${version}" --build-arg "CYPRESS_VERSION=${cyversion}" --tag vilango/meteor-base:"${version}-${cyversion}" ./src; then
+# 			printf "${RED}Error building Docker base image for Meteor ${version}-${cyversion}${NC}\n"
+# 			exit 1
+# 		fi
+# 	done
+# done
+
+# docker tag vilango/meteor-base:"${version}-${cyversion}" vilango/meteor-base:latest
+# printf "${GREEN}Success building Docker base images for all supported Meteor versions\n"

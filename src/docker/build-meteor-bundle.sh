@@ -2,7 +2,7 @@
 
 set -o errexit
 
-printf "\n[-] Building Meteor application bundle...\n\n"
+printf "\n[-] Building Meteor application bundle... $APP_BUNDLE_FOLDER\n\n"
 
 mkdir --parents $APP_BUNDLE_FOLDER
 

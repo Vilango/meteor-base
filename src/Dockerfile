@@ -5,6 +5,7 @@ FROM ubuntu
 
 # Meteor version to build for; see ../build.sh
 ARG METEOR_VERSION
+# ARG CYPRESS_VERSION
 
 ENV SCRIPTS_FOLDER /docker
 ENV APP_SOURCE_FOLDER /opt/src
@@ -17,6 +18,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Install dependencies, based on https://github.com/jshimko/meteor-launchpad/blob/master/scripts/install-deps.sh (only the parts we plan to use)
 RUN apt-get update && \
 	apt-get install --assume-yes apt-transport-https ca-certificates && \
+	apt-get install --assume-yes xvfb && \ 
 	apt-get install --assume-yes --no-install-recommends build-essential libarchive-tools bzip2 curl git python
 	# for older ubuntu build
 	# apt-get install --assume-yes --no-install-recommends build-essential bsdtar bzip2 curl git python
@@ -39,6 +41,11 @@ COPY ./docker $SCRIPTS_FOLDER/
 
 # Install entrypoint dependencies
 RUN cd $SCRIPTS_FOLDER && \
-	meteor npm install
+	meteor npm install && \
+	meteor npm install yarn -g
+
+# RUN cd $SCRIPTS_FOLDER && \
+# 	#meteor yarn global add cypress@$CYPRESS_VERSION
+# 	meteor --version
 
 # No ONBUILD lines, because this is intended to be used by your app’s multistage Dockerfile and you might need control of the sequence of steps using files from this image
