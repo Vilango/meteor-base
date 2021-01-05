@@ -25,3 +25,21 @@ if ! docker push vilango/meteor-base:latest; then
 	exit 1
 fi
 printf "${GREEN}Success pushing Docker base images for all supported Meteor versions\n"
+
+
+
+for version in "${meteor_versions[@]}"; do
+	for cyversion in "${cypress_versions[@]}"; do
+
+		printf "${GREEN}Pushing Docker image meteor-cypress ${version}-${cyversion}...${NC}\n"
+		if ! docker push vilango/meteor-cypress:"${version}-${cyversion}"; then
+			printf "${RED}Error pushing Docker image meteor-cypress ${version}-${cyversion}${NC}\n"
+			exit 1
+		fi
+	done
+done
+if ! docker push vilango/meteor-cypress:latest; then
+	printf "${RED}Error pushing Docker image meteor-cypress (latest version)${NC}\n"
+	exit 1
+fi
+printf "${GREEN}Success pushing Docker images for all supported meteor-cypress versions\n"

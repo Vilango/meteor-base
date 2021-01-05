@@ -25,15 +25,15 @@ printf "${GREEN}Success building Docker base images for all supported Meteor ver
 
 
 
-# for version in "${meteor_versions[@]}"; do
-# 	for cyversion in "${cypress_versions[@]}"; do
-# 		printf "${GREEN}Building Docker base image for Meteor ${version}-${cyversion}...${NC}\n"
-# 		if ! docker build --build-arg "METEOR_VERSION=${version}" --build-arg "CYPRESS_VERSION=${cyversion}" --tag vilango/meteor-base:"${version}-${cyversion}" ./src; then
-# 			printf "${RED}Error building Docker base image for Meteor ${version}-${cyversion}${NC}\n"
-# 			exit 1
-# 		fi
-# 	done
-# done
+for version in "${meteor_versions[@]}"; do
+	for cyversion in "${cypress_versions[@]}"; do
+		printf "${GREEN}Building Docker image for Meteor & Cypress ${version}-${cyversion}...${NC}\n"
+		if ! docker build --build-arg "METEOR_VERSION=${version}" --build-arg "CYPRESS_VERSION=${cyversion}" --tag vilango/meteor-cypress:"${version}-${cyversion}" ./src-cypress; then
+			printf "${RED}Error building Docker base image for Meteor ${version}-${cyversion}${NC}\n"
+			exit 1
+		fi
+	done
+done
 
-# docker tag vilango/meteor-base:"${version}-${cyversion}" vilango/meteor-base:latest
-# printf "${GREEN}Success building Docker base images for all supported Meteor versions\n"
+docker tag vilango/meteor-cypress:"${version}-${cyversion}" vilango/meteor-cypress:latest
+printf "${GREEN}Success building Docker base images for all supported Meteor versions\n"
